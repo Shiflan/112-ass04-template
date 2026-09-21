@@ -393,6 +393,7 @@ char * format_my_isalnum(char dest[], char c, int r)
     else
         sprintf(dest, "isalnum('%c') = false", c);
 
+    return dest;
 }
 
 
@@ -468,6 +469,9 @@ char * format_my_pow(char dest[], int r)
 {
     
     clear_string(dest, 64);
+
+    sprintf(dest, "%-12d", r);
+    
     return dest;
 }
 
@@ -492,5 +496,15 @@ char * format_my_pow(char dest[], int r)
 char * format_my_pow_double(char dest[], double r)
 {
     clear_string(dest, 64);
+    if (r < 10)
+        sprintf(dest, "%012.9f", r);
+    else if (r < 100)
+        sprintf(dest, "%012.8f", r);
+    else if (r < 1000)
+        sprintf(dest, "%012.7f", r);
+    else if (r < 10000)
+        sprintf(dest, "%012.6f", r);
+    else
+        sprintf(dest, "%012.5f", r);
     return dest;
 }
