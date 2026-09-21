@@ -85,7 +85,7 @@ done:
 
 int my_isdigit(char c)
 {
-    if (c >= 48 && c <= 57)
+    if (c >= '0' && c <= '9')
     {
         return 1;
     }
@@ -193,8 +193,6 @@ int my_isalnum(char c)
             return 0;
     }
 
-
-    return 0;
 }
 
 
@@ -508,3 +506,9 @@ char * format_my_pow_double(char dest[], double r)
         sprintf(dest, "%012.5f", r);
     return dest;
 }
+
+
+
+
+//some comments for git stuff
+//some more comments for git stuff
