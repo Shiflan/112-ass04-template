@@ -5,6 +5,11 @@
 // I am fully aware of the consequences of academic dishonesty and agree to
 // abide by the university's academic integrity policy.";
 
+// Jordan Shiflett
+// CSCI 112 Fall 2026
+// Programming Assignment #4
+// I declare that I am the author of this work, take full responsibility for it, and have disclosed any material external assistance.
+
 // code.c — student implementation only
 
 #include <stdio.h>
@@ -57,7 +62,17 @@
 
 void clear_string(char s[], int n)
 {
+int i = 0;
 
+loop:
+    if (i >= n)
+        goto done;
+
+    s[i] = '\0'; 
+    i++;
+    goto loop;
+done:
+    return ; 
 }
 
 
@@ -70,6 +85,10 @@ void clear_string(char s[], int n)
 
 int my_isdigit(char c)
 {
+    if (c >= 48 && c <= 57)
+    {
+        return 1;
+    }
     return 0;
 }
 
@@ -83,6 +102,9 @@ int my_isdigit(char c)
 
 int my_islower(char c)
 {
+    if (c >= 'a' && c <= 'z')
+        return 1;
+
     return 0;
 }
 
@@ -101,6 +123,9 @@ int my_islower(char c)
 
 int my_isupper(char c)
 {
+    if ( c >= 'A' && c <= 'Z' )
+        return 1;
+
     return 0;
 }
 
@@ -121,6 +146,14 @@ int my_isupper(char c)
 
 int my_isalpha(char c)
 {
+    int lower = my_islower(c);
+    int upper = my_isupper(c);
+
+    if (lower == 1 || upper == 1)
+    {
+        return 1;
+    }
+
     return 0;
 }
 
@@ -141,6 +174,26 @@ int my_isalpha(char c)
 
 int my_isalnum(char c)
 {
+    int alpha;
+    int digit;
+    int result;
+
+    alpha = my_isalpha(c);
+    digit = my_isdigit(c);
+
+    result = alpha + digit;
+
+    switch (result)
+    { 
+        case 1:
+
+        case 2:
+            return 1;
+        default:
+            return 0;
+    }
+
+
     return 0;
 }
 
@@ -161,6 +214,25 @@ int my_isalnum(char c)
 
 int my_strcmp(char a[], char b[])
 {
+    int i = 0;
+
+    loop:
+        if (a[i] == '\0' && b[i] == '\0')
+            goto equal;
+        if (a[i] < b[i])
+            goto less;
+        if (a[i] > b[i])
+            goto greater;
+
+        i++;
+        goto loop;
+
+        less:
+            return -1;
+        greater: 
+            return 1;
+        equal: 
+            return 0;
     return 0;
 }
 
@@ -179,7 +251,19 @@ int my_strcmp(char a[], char b[])
 
 int my_strchr(char s[], char c)
 {
-    return 0;
+    int i = 0; 
+    search: 
+        if (s[i] == '\0')
+            goto not_found;
+        if (s[i] == c)
+            goto found;
+
+        i++;
+        goto search;
+    found: 
+        return i;
+    not_found:
+        return -1;
 }
 
 
@@ -196,7 +280,17 @@ int my_strchr(char s[], char c)
 
 int my_pow(int a, int b)
 {
-    return 0;
+    int result = 1;
+    int i = 0; 
+    power_loop:
+        if (i >= b)
+            goto done;
+
+        result *= a;
+        i++;
+        goto power_loop;
+    done:
+        return result; 
 }
 
 
@@ -212,8 +306,18 @@ int my_pow(int a, int b)
 // ============================================================
 
 double my_pow_double(double a, int b)
-{
-    return 0.0;
+{ 
+    double result = 1.0;
+    int i = 0; 
+    power_loop:
+        if (i >= b)
+            goto done;
+
+        result *= a;
+        i++;
+        goto power_loop;
+    done:
+        return result;
 }
 
 
@@ -235,6 +339,15 @@ double my_pow_double(double a, int b)
 char * format_my_isupper(char dest[], char c, int r)
 {
     clear_string(dest, 64);
+    
+    if (r == 1) 
+    {
+        sprintf(dest, "isupper('%c') = true", c);
+    }
+    else 
+    {
+        sprintf(dest, "isupper('%c') = false", c);
+    }
     return dest;
 }
 
@@ -251,7 +364,13 @@ char * format_my_isupper(char dest[], char c, int r)
 
 char * format_my_isalpha(char dest[], char c, int r)
 {
-    clear_string(dest, 64);
+    clear_string(dest, 64); 
+
+    if (r ==1)
+        sprintf(dest, "isalpha('%c') = true", c);
+    else
+        sprintf(dest, "isalpha('%c') = false", c);
+
     return dest;
 }
 
@@ -269,7 +388,11 @@ char * format_my_isalpha(char dest[], char c, int r)
 char * format_my_isalnum(char dest[], char c, int r)
 {
     clear_string(dest, 64);
-    return dest;
+    if (r == 1)
+        sprintf(dest, "isalnum('%c') = true", c);
+    else
+        sprintf(dest, "isalnum('%c') = false", c);
+
 }
 
 
@@ -288,6 +411,18 @@ char * format_my_isalnum(char dest[], char c, int r)
 char * format_my_strcmp(char dest[], int r)
 {
     clear_string(dest, 64);
+    switch (r)
+    {
+        case -1:
+            sprintf(dest, "comparison: less");
+            break;
+        case 0:
+            sprintf(dest, "comparison: equal");
+            break;
+        case 1:
+            sprintf(dest, "comparison: greater");
+            break;
+    }
     return dest;
 }
 
@@ -304,7 +439,16 @@ char * format_my_strcmp(char dest[], int r)
 
 char * format_my_strchr(char dest[], int r)
 {
+    
     clear_string(dest, 64);
+    if (r >= 0)
+    {
+        sprintf(dest, "found at: %d", r);
+    }
+    else
+    {
+        sprintf(dest, "not found");
+    }
     return dest;
 }
 
@@ -322,6 +466,7 @@ char * format_my_strchr(char dest[], int r)
 
 char * format_my_pow(char dest[], int r)
 {
+    
     clear_string(dest, 64);
     return dest;
 }

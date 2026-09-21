@@ -11,7 +11,7 @@ $(TARGET): $(OBJS) | bin
 	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET)
 
 bin:
-	mkdir -p bin
+	mkdir bin
 
 obj/main.o: src/main.c | obj
 	$(CC) $(CFLAGS) -c src/main.c -o obj/main.o
@@ -20,7 +20,7 @@ obj/code.o: src/code.c | obj
 	$(CC) $(CFLAGS) -c src/code.c -o obj/code.o
 
 obj:
-	mkdir -p obj
+	mkdir obj
 
 clean:
 	rm -rf obj bin
